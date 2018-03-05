@@ -64,5 +64,10 @@
   "CARDS_TITLE": "Social",
 
   "SEARCH_TITLE": "Search",
-  "SEARCH_PLACEHOLDER": "Search the items list, e.g. \"Donald Duck\""
+  "SEARCH_PLACEHOLDER": "Search the items list, e.g. \"Donald Duck\"",
+  
+  "SEARCH_BY_NAME_PLACEHOLDER": "Search by name",
+  "SEARCH_BY_SPEC": "Search by Specialty"
+
+  
 }

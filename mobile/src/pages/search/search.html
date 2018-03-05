@@ -1,22 +1,26 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{ 'SEARCH_TITLE' | translate }}</ion-title>
+    <ion-title *ngIf="spec">{{ spec.name }}</ion-title>
+    <ion-title *ngIf="!spec">{{ 'DOCTORS_TITLE' | translate }}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-  <ion-searchbar (ionInput)="getItems($event)" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}"></ion-searchbar>
+  <ion-searchbar (ionInput)="filterItems($event)" placeholder="{{ 'SEARCH_BY_NAME_PLACEHOLDER' | translate }}"></ion-searchbar>
+  <ion-list *ngIf="!spec">
+    <div padding>
+      <button ion-button color="primary" block (click)="searchBySpec()">{{ 'SEARCH_BY_SPEC' | translate }}</button>
+    </div>
+  </ion-list>
   <ion-list>
-    <button ion-item (click)="openItem(item)" *ngFor="let item of currentItems">
+    <button ion-item (click)="openItem(item)" *ngFor="let item of currentItems | async">
       <ion-avatar item-start>
         <img [src]="item.profilePic" />
       </ion-avatar>
-      <h2>{{item.name}}</h2>
-      <p>{{item.about}}</p>
-      <ion-note item-end *ngIf="item.note">{{item.note}}</ion-note>
+      <h2>{{item.firstName}} {{item.lastName}}</h2>
     </button>
   </ion-list>
 </ion-content>

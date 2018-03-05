@@ -2,31 +2,33 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
-import { Doctor } from '../../models/doctor';
 import { Spec } from '../../models/spec';
-import { Query, DocumentReference } from '@firebase/firestore-types';
+import { CollectionReference, Query } from '@firebase/firestore-types';
 import { Filter } from '../../models/filter';
+
+/**
+ * Generated class for the SpecsPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
 
 @IonicPage()
 @Component({
-  selector: 'page-search',
-  templateUrl: 'search.html'
+  selector: 'page-specs',
+  templateUrl: 'specs.html',
 })
-export class SearchPage {
-  spec: Spec;
+export class SpecsPage {
+
   filter: Filter = new Filter();
-  currentItems: Observable<Doctor[]>;
+  currentItems: Observable<Spec[]>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public db: AngularFirestore) {
-    this.spec = navParams.get('spec');
     this.filterItems(null);
   }
 
-  /**
-   * Navigate to the detail page for this item.
-   */
-  openItem(doctor: Doctor) {
-
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad SpecsPage');
   }
 
   filterItems(ev) {
@@ -36,11 +38,8 @@ export class SearchPage {
       this.filter.set();
     }
 
-    this.currentItems = this.db.collection<Doctor>('doctors', ref => {
+    this.currentItems = this.db.collection<Spec>('specs', ref => {
       let where: Query = ref;
-      if (this.spec) {
-        where = where.where('spec', '==', this.db.doc('/specs/' + this.spec.id).ref);
-      }
       if (this.filter.start) {
         where = where.where('searchField', '>=', this.filter.start).where('searchField', '<', this.filter.end);
       }
@@ -48,7 +47,10 @@ export class SearchPage {
     }).valueChanges();
   }
 
-  searchBySpec() {
-    this.navCtrl.push('SpecsPage');
+  openItem(spec: Spec) {
+    this.navCtrl.push('SearchPage', {
+      spec: spec
+    });
   }
+
 }
